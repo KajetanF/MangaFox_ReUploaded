@@ -1,0 +1,8 @@
+MangaList text files should be of the format below and appear as they do on Mangafox. To create
+your personalized script simply doubleclick on MangaFoxSetup.py entering prompts as need be. Your script
+file will be located in the dist folder once setup is complete
+FILE FORMAT BELOW!(manga name\n manga name\n...)
+manga name
+manga name
+manga name
+					
