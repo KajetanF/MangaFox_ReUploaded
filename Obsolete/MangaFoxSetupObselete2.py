@@ -3,7 +3,7 @@ from MangaFox_exe_Setup import *
 from urllib import urlopen, urlretrieve
 import re,webbrowser,os
 
-'''def MangaListAdjuster(Address):
+def MangaListAdjuster(Address):
     with open("C:\MangaFox\TodayMangaList.html","w") as MangaWipe:        #Wipes previous Manga List
         MangaWipe.write("")
         MangaWipe.close()
@@ -28,7 +28,7 @@ import re,webbrowser,os
         ListOfManga = myManga.read()
     MangaList = filter(None,ListOfManga.split("\n"))        #Creates List with added manga, while filtering out dead spaces
     print MangaList
-    return MangaList'''
+    return MangaList
 
 def MangaFoxChecker(url,MangaList):                    
     webpage = urlopen(url).read()
@@ -79,12 +79,19 @@ if __name__ == '__main__' :
     try:
         app = MangaGUI(None)
         app.mainloop()
-        if (app.Page  == ""):
+        Address = app.Address
+        pages = app.pages
+        print Address
+        if (Address  == "") or (pages  == ""):
             raise AttributeError
 
     except (AttributeError,NameError,ValueError) as e:    
-        MangaList = []          
+        with open("C:\MangaFox\myMangaList.txt","w") as EmptyMangaList:
+            EmptyMangaList.write("")
+            Address = "C:\MangaFox\myMangaList.txt"
+            pages = 2          
 
-    PageChecker(app.MangaList,int(app.Page))
+    Manga = MangaListAdjuster(Address)                   #Creates the Manga List file
+    PageChecker(Manga,pages)
     finish()
     os._exit(-1)

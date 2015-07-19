@@ -79,7 +79,7 @@ if __name__ == '__main__' :
     try:
         app = MangaGUI(None)
         app.mainloop()
-        if (app.Page  == ""):
+        if (Address  == "") or (pages  == ""):
             raise AttributeError
 
     except (AttributeError,NameError,ValueError) as e:    

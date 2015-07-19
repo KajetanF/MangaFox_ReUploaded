@@ -3,7 +3,7 @@ from MangaFox_exe_Setup import *
 from urllib import urlopen, urlretrieve
 import re,webbrowser,os
 
-'''def MangaListAdjuster(Address):
+def MangaListAdjuster(Address):
     with open("C:\MangaFox\TodayMangaList.html","w") as MangaWipe:        #Wipes previous Manga List
         MangaWipe.write("")
         MangaWipe.close()
@@ -28,7 +28,7 @@ import re,webbrowser,os
         ListOfManga = myManga.read()
     MangaList = filter(None,ListOfManga.split("\n"))        #Creates List with added manga, while filtering out dead spaces
     print MangaList
-    return MangaList'''
+    return MangaList
 
 def MangaFoxChecker(url,MangaList):                    
     webpage = urlopen(url).read()
@@ -58,7 +58,13 @@ def MultipleChapters():
 
     
 
-def PageChecker(Manga,pages):
+def PageChecker(Manga):
+    while True:
+        try:
+            pages = int(raw_input("Please type the number of pages you would like to scan through. "))    #user decides the amount of pages to be scanned through
+            break
+        except ValueError,TypeError:
+            print "Please Enter a Number!"
 
     print "LOADING PAGES"
     MangaFoxChecker("http://mangafox.me/releases/",Manga)       #scans first page   
@@ -70,6 +76,7 @@ def PageChecker(Manga,pages):
     print "Setup now complete"
     new = 2
     webbrowser.open("file:///C:/MangaFox/TodayMangaList.html",new=new)
+    return pages
 
 if __name__ == '__main__' :
 
@@ -79,12 +86,20 @@ if __name__ == '__main__' :
     try:
         app = MangaGUI(None)
         app.mainloop()
-        if (app.Page  == ""):
+        Address = app.Address
+        print Address
+        if Address == "":
             raise AttributeError
 
-    except (AttributeError,NameError,ValueError) as e:    
-        MangaList = []          
+    except AttributeError:    
+        with open("C:\MangaFox\myMangaList.txt","w") as EmptyMangaList:
+            EmptyMangaList.write("")
+            print "You have not input a file, therefore a blank list has been generated"
+            Address = "C:\MangaFox\myMangaList.txt"
 
-    PageChecker(app.MangaList,int(app.Page))
+    Manga = MangaListAdjuster(Address)                   #Creates the Manga List file
+    pages = PageChecker(Manga)
+    with open("C:\MangaFox\ScriptInfo.txt","w") as ScriptInfo:
+        ScriptInfo.write("Pages = " +str(pages))
     finish()
     os._exit(-1)
