@@ -1,36 +1,13 @@
 from MangaFoxGUI import *
-from MangaFox_exe_Setup import *
 from urllib import urlopen, urlretrieve
-import re,webbrowser,os
+from distutils.core import setup
+import re,webbrowser,os,py2exe,sys
 
-'''def MangaListAdjuster(Address):
+def MangaFoxChecker(url,MangaList):
     with open("C:\MangaFox\TodayMangaList.html","w") as MangaWipe:        #Wipes previous Manga List
         MangaWipe.write("")
         MangaWipe.close()
-
-    with open(Address,"r") as MangaInfo:           #Generates a new manga list to search from Manga List Document
-        MangaStr = MangaInfo.read()
-        print "Your novels are the following:\n %s" %(MangaStr)
-
-        with open("C:\MangaFox\myMangaList.txt","w") as MangaEdit:           
-            MangaEdit.write(MangaStr+"\n")
-            if (MangaStr == "") or (raw_input("Type yes to add a manga, if not type anything else. ").lower()=="yes"):    #writes old manga list as well as added manga list to file
-                while True:
-                    AddedManga = (raw_input("Enter full anime name one at a time, type '0' once finished. "))
-                    if (AddedManga != "0"):
-                        MangaEdit.write(AddedManga+"\n")
-                    elif str(MangaEdit.tell())=="2":
-                        print "Please add to your manga list!"
-                    else:
-                        break        
- 
-    with open("C:\MangaFox\myMangaList.txt", 'r') as myManga:
-        ListOfManga = myManga.read()
-    MangaList = filter(None,ListOfManga.split("\n"))        #Creates List with added manga, while filtering out dead spaces
-    print MangaList
-    return MangaList'''
-
-def MangaFoxChecker(url,MangaList):                    
+    
     webpage = urlopen(url).read()
 
     patFinderSeries = re.compile('                        <dl><dt><em>.*</em><span class="chapter nowrap"><a href=".*" class="chapter">(.*)\s\d+</a>')
@@ -79,12 +56,15 @@ if __name__ == '__main__' :
     try:
         app = MangaGUI(None)
         app.mainloop()
-        if (app.Page  == ""):
+        if (Address  == "") or (pages  == ""):
             raise AttributeError
 
     except (AttributeError,NameError,ValueError) as e:    
         MangaList = []          
 
     PageChecker(app.MangaList,int(app.Page))
-    finish()
+    with open("C:\MangaFox\ScriptInfo.txt","w") as ScriptInfo:
+        ScriptInfo.write("Pages = " + str(app.Page))
+    sys.argv.append("py2exe")
+    setup(windows=["C:\Python27\MangaFox\MangaFoxScript.pyw"])
     os._exit(-1)

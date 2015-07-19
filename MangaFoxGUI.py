@@ -109,5 +109,3 @@ class MangaGUI(Tk):
             for item in self.MangaList:
                 Manga.write(item + "\n")
         self.destroy()
-app = MangaGUI(None)
-app.mainloop()

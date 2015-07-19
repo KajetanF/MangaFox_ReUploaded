@@ -41,8 +41,6 @@ def PageChecker(Manga,pages):
     MangaFoxChecker(URL,Manga)
     for page in reversed(xrange(2,int(pages)+1)):
         MangaFoxChecker(URL.replace("2",str(page)),Manga)    
-    new = 2
-    webbrowser.open("file:///C:/Users/Kajetan/Documents/TodayMangaList.html",new=new)
  
 if __name__ == '__main__':
     with open("C:\MangaFox\ScriptInfo.txt") as ScriptInfo:
@@ -51,4 +49,5 @@ if __name__ == '__main__':
     PageChecker(Manga,pages)
     new = 2
     webbrowser.open("file:///C:/Users/Kajetan/Documents/TodayMangaList.html",new=new)
+
     
